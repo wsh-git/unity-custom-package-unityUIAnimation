@@ -5,7 +5,9 @@ using Wsh.UIAnimation.Easing;
 namespace Wsh.UIAnimation {
 
     public class UIBaseAnimation : MonoBehaviour {
-        protected const int FRAME = 30;
+
+        private static int targetFrame = 30;
+        private static float targetDeltaTime = 1f / targetFrame;
 
         public EasingType easingType = EasingType.IN_SINE;
         public UIAnimationPlayType playType = UIAnimationPlayType.Once;
@@ -18,11 +20,7 @@ namespace Wsh.UIAnimation {
 
         public event Action onFinish;
 
-        public bool IsPlaying {
-            get {
-                return m_state == UIAnimationState.Play;
-            }
-        }
+        public bool IsPlaying { get { return m_state == UIAnimationState.Play; } }
 
         protected int m_loopTimes = 0;
         protected UIAnimationState m_state;
@@ -33,7 +31,11 @@ namespace Wsh.UIAnimation {
         private float m_valueExtent;
         private float m_timeRatio;
         private float m_playLoopTimes = 0;
-        private float m_deltaTime = 0;
+
+        public static void SetTargetFrame(int frame) {
+            targetFrame = frame;
+            targetDeltaTime = 1f / targetFrame;
+        }
 
         private void SetState(UIAnimationState state) {
             m_state = state;
@@ -63,8 +65,6 @@ namespace Wsh.UIAnimation {
         }
 
         void Start() {
-            Application.targetFrameRate = FRAME;
-            m_deltaTime = 1f/FRAME;
             OnInit();
         }
 
@@ -99,18 +99,18 @@ namespace Wsh.UIAnimation {
         void Update() {
             switch(m_state) {
                 case UIAnimationState.Delay:
-                    m_delayTime += m_deltaTime;
+                    m_delayTime += targetDeltaTime;
                     if(m_delayTime >= delay) {
                         OnPlay();
                         SetState(UIAnimationState.Play);
                     }
                     break;
                 case UIAnimationState.Play:
-                    m_playTime += m_deltaTime;
+                    m_playTime += targetDeltaTime;
                     m_executeParam = m_playTime * m_timeRatio;
                     m_executeValue = EasingFunctions.Excute(m_executeParam, easingType);
                     //m_executeValue *= m_valueExtent;
-                    OnUpdate(m_deltaTime, m_executeValue, (m_executeValue*m_valueExtent)+from);
+                    OnUpdate(targetDeltaTime, m_executeValue, (m_executeValue*m_valueExtent)+from);
                     if(m_playTime >= duration) {
                         switch(playType) {
                             case UIAnimationPlayType.PingPang:
