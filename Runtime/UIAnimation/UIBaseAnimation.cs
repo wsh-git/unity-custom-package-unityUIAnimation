@@ -5,9 +5,9 @@ using Wsh.UIAnimation.Easing;
 namespace Wsh.UIAnimation {
 
     public class UIBaseAnimation : MonoBehaviour {
-
         private static int targetFrame = 30;
         private static float targetDeltaTime = 1f / targetFrame;
+        private static bool inited = false;
 
         public EasingType easingType = EasingType.IN_SINE;
         public UIAnimationPlayType playType = UIAnimationPlayType.Once;
@@ -33,8 +33,15 @@ namespace Wsh.UIAnimation {
         private float m_playLoopTimes = 0;
 
         public static void SetTargetFrame(int frame) {
-            targetFrame = frame;
-            targetDeltaTime = 1f / targetFrame;
+            if(!inited) {
+                if(frame == -1) {
+                    targetFrame = 60;
+                } else {
+                    targetFrame = frame;
+                }
+                targetDeltaTime = 1f / targetFrame;
+                inited = true;
+            }
         }
 
         private void SetState(UIAnimationState state) {
@@ -65,6 +72,7 @@ namespace Wsh.UIAnimation {
         }
 
         void Start() {
+            SetTargetFrame(Application.targetFrameRate);
             OnInit();
         }
 

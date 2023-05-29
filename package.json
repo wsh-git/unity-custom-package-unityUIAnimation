@@ -6,7 +6,7 @@
   "keywords": [
     "UI Animation"
   ],
-  "description": "This is a very base ui animation.\n使用之前，首先使用‘Wsh.UIAnimation.UIAnimationModule.Init(60);’进行初始化。",
+  "description": "This is a very base ui animation.",
   "repository": {
     "url": "https://github.com/wsh-git/unity-custom-package-unityUIAnimation.git",
     "type": "git",
