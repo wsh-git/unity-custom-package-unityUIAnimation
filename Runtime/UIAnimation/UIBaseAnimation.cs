@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 using Wsh.UIAnimation.Easing;
 
 namespace Wsh.UIAnimation {
@@ -17,6 +18,7 @@ namespace Wsh.UIAnimation {
         public float to;
         public float delay;
         public float duration;
+        public UnityEvent onFinishEvent;
 
         public event Action onFinish;
 
@@ -104,6 +106,11 @@ namespace Wsh.UIAnimation {
             return true;
         }
 
+        private void ExecuteFinishEvent() {
+            onFinishEvent?.Invoke();
+            onFinish?.Invoke();
+        }
+
         void Update() {
             switch(m_state) {
                 case UIAnimationState.Delay:
@@ -124,18 +131,18 @@ namespace Wsh.UIAnimation {
                             case UIAnimationPlayType.PingPang:
                                 if(!ReplayPingPang()){
                                     SetState(UIAnimationState.Finish);
-                                    onFinish?.Invoke();
+                                    ExecuteFinishEvent();
                                 }
                                 break;
                             case UIAnimationPlayType.Loop:
                                 if(!ReplayLoop()) {
                                     SetState(UIAnimationState.Finish);
-                                    onFinish?.Invoke();
+                                    ExecuteFinishEvent();
                                 }
                                 break;
                             default:
                                 SetState(UIAnimationState.Finish);
-                                onFinish?.Invoke();
+                                ExecuteFinishEvent();
                                 break;
                         }
                     }
