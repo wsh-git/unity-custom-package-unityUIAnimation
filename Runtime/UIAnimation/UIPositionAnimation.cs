@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Wsh.UIAnimation {
@@ -21,6 +19,14 @@ namespace Wsh.UIAnimation {
             if(isInit) {
                 SetPosition(fromVect3.x, fromVect3.y, fromVect3.z);
             }
+            m_extentX = toVect3.x - fromVect3.x;
+            m_extentY = toVect3.y - fromVect3.y;
+            m_extentZ = toVect3.z - fromVect3.z;
+        }
+
+        protected override void OnPlay() {
+            m_tempVect3 = Vector3.zero;
+            SetPosition(fromVect3.x, fromVect3.y, fromVect3.z);
             m_extentX = toVect3.x - fromVect3.x;
             m_extentY = toVect3.y - fromVect3.y;
             m_extentZ = toVect3.z - fromVect3.z;
