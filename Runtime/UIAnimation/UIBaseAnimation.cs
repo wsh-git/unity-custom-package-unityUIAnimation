@@ -61,6 +61,10 @@ namespace Wsh.UIAnimation {
             m_valueExtent = to - from;
         }
 
+        public virtual void Stop() {
+            SetState(UIAnimationState.Finish);
+        }
+
         protected virtual void OnPlay() {
 
         }

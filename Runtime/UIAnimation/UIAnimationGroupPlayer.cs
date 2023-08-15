@@ -54,5 +54,17 @@ namespace Wsh.UIAnimation {
                 }
             }
         }
+
+        public void Stop() {
+            if(group != 0) {
+                if(m_uiAnis != null && m_uiAnis.Length > 0) {
+                    for(int i = 0; i < m_uiAnis.Length; i++) {
+                        if(m_uiAnis[i].group == group && m_uiAnis[i].IsPlaying) {
+                            m_uiAnis[i].Stop();
+                        }
+                    }
+                }
+            }
+        }
     }
 }
