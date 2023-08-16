@@ -13,23 +13,30 @@ namespace Wsh.UIAnimation {
         private Vector3 m_tempVect3;
         private RectTransform m_rectTransform;
 
+        private void ClacExtent() {
+            m_extentX = toVect3.x - fromVect3.x;
+            m_extentY = toVect3.y - fromVect3.y;
+            m_extentZ = toVect3.z - fromVect3.z;
+        }
+
         protected override void OnInit() {
             m_tempVect3 = Vector3.zero;
             m_rectTransform = transform.GetComponent<RectTransform>();
             if(isInit) {
                 SetPosition(fromVect3.x, fromVect3.y, fromVect3.z);
             }
-            m_extentX = toVect3.x - fromVect3.x;
-            m_extentY = toVect3.y - fromVect3.y;
-            m_extentZ = toVect3.z - fromVect3.z;
+            ClacExtent();
+        }
+
+        public void ResetFromVect3(Vector3 vector3) {
+            fromVect3 = vector3;
+            ClacExtent();
         }
 
         protected override void OnPlay() {
             m_tempVect3 = Vector3.zero;
             SetPosition(fromVect3.x, fromVect3.y, fromVect3.z);
-            m_extentX = toVect3.x - fromVect3.x;
-            m_extentY = toVect3.y - fromVect3.y;
-            m_extentZ = toVect3.z - fromVect3.z;
+            ClacExtent();
         }
 
         private void SetPosition(float x, float y, float z) {
