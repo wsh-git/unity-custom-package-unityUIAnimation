@@ -12,6 +12,7 @@ namespace Wsh.UIAnimation {
         private float m_extentZ;
         private Vector3 m_tempVect3;
         private RectTransform m_rectTransform;
+        private Vector3 m_tempChangeVector3;
 
         private void ClacExtent() {
             m_extentX = toVect3.x - fromVect3.x;
@@ -46,6 +47,13 @@ namespace Wsh.UIAnimation {
 
         protected override void OnUpdate(float deltaTime, float easingValue, float executeResult) {
             SetPosition(easingValue * m_extentX + fromVect3.x, easingValue * m_extentY + fromVect3.y, easingValue * m_extentZ + fromVect3.z);
+        }
+
+        protected override void OnReplayPingPang() {
+            m_tempChangeVector3 = toVect3;
+            toVect3 = fromVect3;
+            fromVect3 = m_tempChangeVector3;
+            ClacExtent();
         }
 
     }

@@ -86,6 +86,10 @@ namespace Wsh.UIAnimation {
             m_loopTimes = times;
         }
 
+        protected virtual void OnReplayPingPang() {
+
+        }
+
         private bool ReplayPingPang() {
             m_executeParam = 0;
             m_playTime = 0;
@@ -93,6 +97,7 @@ namespace Wsh.UIAnimation {
             to = from;
             from = temp;
             m_valueExtent = to - from;
+            OnReplayPingPang();
             m_playLoopTimes++;
             if(m_loopTimes != 0) {
                 return m_playLoopTimes < m_loopTimes;
