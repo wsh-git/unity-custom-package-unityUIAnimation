@@ -46,6 +46,14 @@ namespace Wsh.UIAnimation {
             m_isPlaying = false;
         }
         
+        public void Pause() {
+            m_isPlaying = false;
+        }
+
+        public void Unpause() {
+            m_isPlaying = true;
+        }
+        
         // Update is called once per frame
         void Update() {
             UpdateFrames();
